@@ -1,6 +1,5 @@
 <?php
  $errors = array();
-
  /*--------------------------------------------------------------*/
  /* Function for Remove escapes special
  /* characters in a string for use in an SQL statement
@@ -37,6 +36,23 @@ function validate_fields($var){
       $errors = $field ." can't be blank.";
       return $errors;
     }
+  }
+}
+/*--------------------------------------------------------------*/
+/* Function for Display Session Message
+   Ex echo displayt_msg($message);
+/*--------------------------------------------------------------*/
+function display_msg($msg =''){
+  $output = array();
+  if(!empty($msg)) {
+     foreach ($msg as $key => $value) {
+        $output  = "<div class=\"alert alert-{$key}\">";
+        $output .= remove_junk(first_character($value));
+        $output .= "</div>";
+     }
+     return $output;
+  } else {
+    return "" ;
   }
 }
 /*--------------------------------------------------------------*/

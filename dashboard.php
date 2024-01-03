@@ -1,4 +1,26 @@
 <?php require_once "controllerUserData.php"; ?>
+<?php 
+$email = $_SESSION['email'];
+$password = $_SESSION['password'];
+if($email != false && $password != false){
+    $sql = "SELECT * FROM admin WHERE email = '$email'";
+    $run_Sql = mysqli_query($con, $sql);
+    if($run_Sql){
+        $fetch_info = mysqli_fetch_assoc($run_Sql);
+        $status = $fetch_info['status'];
+        $code = $fetch_info['code'];
+        if($status == "verified"){
+            if($code != 0){
+                header('Location: login_signup/login-user.php');
+            }
+        }else{
+            header('Location: login_signup/login-user.php');
+        }
+    }
+}else{
+    header('Location: login_signup/login-user.php');
+}
+?>
 <?php
   $page_title = 'Dashboard';
   require_once('includes/load.php');
@@ -31,7 +53,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="detail">
-                            <p class="detail-subtitle">New Enrollee</p>
+                            <p class="detail-subtitle">Enrollees</p>
                             <span class="number"><?php  echo $c_enrollees['total']; ?></span>
                         </div>
                     </div>
@@ -77,7 +99,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="detail">
-                            <p class="detail-subtitle">OTP Sent</p>
+                            <p class="detail-subtitle">Registered Users</p>
                             <span class="number"><?php  echo $c_email['total']; ?></span>
                         </div>
                     </div>
@@ -100,7 +122,7 @@
                     </div>
                     <div class="col-sm-8">
                         <div class="detail">
-                            <p class="detail-subtitle">Authenticated Email</p>
+                            <p class="detail-subtitle">Verified Users</p>
                             <span class="number"><?php  echo $c_verified['total']; ?></span>
                         </div>
                     </div>

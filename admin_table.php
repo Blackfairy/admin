@@ -1,10 +1,32 @@
+<?php require_once "controllerUserData.php"; ?>
+<?php 
+$email = $_SESSION['email'];
+$password = $_SESSION['password'];
+if($email != false && $password != false){
+    $sql = "SELECT * FROM admin WHERE email = '$email'";
+    $run_Sql = mysqli_query($con, $sql);
+    if($run_Sql){
+        $fetch_info = mysqli_fetch_assoc($run_Sql);
+        $status = $fetch_info['status'];
+        $code = $fetch_info['code'];
+        if($status == "verified"){
+            if($code != 0){
+                header('Location: add_admin_resetcode.php');
+            }
+        }else{
+            header('Location: add_admin_otp.php');
+        }
+    }
+}else{
+    header('Location: login_signup/login-user.php');
+}
+?>
 <?php
-$page_title = 'User Table';
+$page_title = 'Admin Table';
 require_once('includes/load.php');
 require 'vendor/autoload.php'; // Include SimpleExcel
-$students = join_user_table();
+$students = join_admin();
 ?>
-
 <?php include_once('layouts/header-sidebar.php'); ?>
 
 <div class="row">
@@ -14,7 +36,7 @@ $students = join_user_table();
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
                 <div class="pull-right">
-                    <a href="add_students.php" class="btn">Add New Course</a>
+                    <a href="admin_table.php" class="btn">Add New User</a>
                 </div>
             </div>
             <div class="panel-body">
@@ -44,7 +66,7 @@ $students = join_user_table();
                                     <a href="edit_user.php?id=<?php echo (int)$students['id'];?>" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                                     <span class="fas fa-edit" style="color:forestgreen"></span>
                                     </a>
-                                    <a href="delete_user.php?id=<?php echo (int)$students['id'];?>" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
+                                    <a href="delete_admin.php?id=<?php echo (int)$students['id'];?>" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
                                     <span class="fas fa-trash" style="color:red"></span>
                                     </a>
                                 </div>

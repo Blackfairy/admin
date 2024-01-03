@@ -206,9 +206,17 @@ function join_student_table()
 function join_user_table()
 {
     global $db;
-    $sql  = "SELECT u.id, u.name, u.email, u.code, u.status, u.created_at";
+    $sql  = "SELECT u.id, u.name, u.email, u.code, u.status, u.is_active, u.registration_date";
     $sql .= " FROM usertable u";
     $sql .= " ORDER BY u.id ASC";
+    return find_by_sql($sql);
+}
+function join_admin()
+{
+    global $db;
+    $sql  = "SELECT x.id, x.name, x.email, x.code, x.status, x.created_at";
+    $sql .= " FROM admin x";
+    $sql .= " ORDER BY x.id ASC";
     return find_by_sql($sql);
 }
 

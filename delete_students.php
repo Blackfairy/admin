@@ -5,16 +5,16 @@
   $students = find_by_id('students',(int)$_GET['id']);
   if(!$students){
     $session->msg("d","Missing students id.");
-    redirect('students.php');
+    redirect('students_table.php');
   }
 ?>
 <?php
   $delete_id = delete_by_id('students',(int)$students['id']);
   if($delete_id){
       $session->msg("s","Course deleted succesfully!");
-      redirect('students.php');
+      redirect('students_table.php');
   } else {
       $session->msg("d","Failed to delete Course!");
-      redirect('students.php');
+      redirect('students_table.php');
   }
 ?>

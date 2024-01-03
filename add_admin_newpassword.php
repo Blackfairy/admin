@@ -1,29 +1,45 @@
 <?php require_once "controllerUserData.php"; ?>
 <?php 
 $email = $_SESSION['email'];
-if($email == false){
-  header('Location: login_signup.php');
+$password = $_SESSION['password'];
+if($email != false && $password != false){
+    $sql = "SELECT * FROM admin WHERE email = '$email'";
+    $run_Sql = mysqli_query($con, $sql);
+    if($run_Sql){
+        $fetch_info = mysqli_fetch_assoc($run_Sql);
+        $status = $fetch_info['status'];
+        $code = $fetch_info['code'];
+        if($status == "verified"){
+            if($code != 0){
+                header('Location: add_admin_resetcode.php');
+            }
+        }else{
+            header('Location: add_admin_otp.php');
+        }
+    }
+}else{
+    header('Location: login_signup/login-user.php');
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create a New Password</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="new-password.css">
-</head>
-<body>
-<div class="logo">
-	<img src="homepage/img/Rectangle 5.png">
-</div>
-	<div class="signup-vector">
-		<img src="homepage/img/erovph.gif">
-	</div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 offset-md-4 form">
-                <form action="new-password.php" method="POST" autocomplete="off">
+<?php
+  $page_title = 'Admin New Password';
+  
+require_once('includes/load.php');
+?>
+<?php include_once('layouts/header-sidebar.php'); ?>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>
+                    <span class="glyphicon glyphicon-th"></span>
+                    <span>Admin New Password</span>
+                </strong>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                <form action="add_admin_newpassword.php" method="POST" autocomplete="off">
                     <h2 class="text-center">New Password</h2>
                     <?php 
                     if(isset($_SESSION['info'])){
@@ -47,6 +63,7 @@ if($email == false){
                         <?php
                     }
                     ?>
+
                     <div class="form-group">
                         <input class="form-control" type="password" name="password" placeholder="Create new password" required>
                     </div>
@@ -57,9 +74,22 @@ if($email == false){
                         <input class="form-control button" type="submit" name="change-password" value="Change">
                     </div>
                 </form>
+                </div>
             </div>
         </div>
     </div>
-    
-</body>
-</html>
+</div>
+
+<style>
+    .row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(1 * var(--bs-gutter-x));
+    margin-left: calc(.01 * var(--bs-gutter-x));
+}
+</style>  
+<?php include_once('layouts/main-footer.php'); ?>
+ 

@@ -1,22 +1,17 @@
 <?php require_once "controllerUserData.php"; ?>
-
 <?php
 $page_title = 'Edit Courses';
 require_once('includes/load.php');
-$courses = join_course_table();
-// Set Asia/Manila timezone
-date_default_timezone_set('Asia/Manila');
 
 $courses = find_by_id('courses', (int)$_GET['id']);
-$all_categories = find_all('courses');
 
 if (!$courses) {
     $session->msg("d", "Missing courses id.");
     redirect('courses.php');
 }
 
-if (isset($_POST['course'])) {
-    $req_fields = array('cname', 'code', 'description', 'course-cat', 'first_name', 'last_name', 'sdate', 'edate');
+if (isset($_POST['courses'])) {
+    $req_fields = array('cname', 'code', 'course-cat', 'description', 'first_name', 'last_name', 'sdate', 'edate');
     validate_fields($req_fields);
 
     if (empty($errors)) {
@@ -28,11 +23,14 @@ if (isset($_POST['course'])) {
         $c_lname = remove_junk($db->escape($_POST['last_name']));
         $c_sdate = remove_junk($db->escape($_POST['sdate']));
         $c_edate = remove_junk($db->escape($_POST['edate']));
-
-        $query = "UPDATE courses SET";
-        $query .= " course_code ='{$c_code}', course_category ='{$c_cat}',";
-        $query .= " course_name ='{$c_name}', course_description ='{$c_descri}', instructor_first_name='{$c_fname}', instructor_last_name='{$c_lname}',start_date='{$c_sdate}',end_date='{$c_edate}',";
-        $query .= " WHERE id ='{$courses['id']}'";
+        
+        $query = "UPDATE courses SET ";
+        $query .= "course_code = '{$c_code}', course_name = '{$c_name}', category_id = '{$c_cat}', ";
+        $query .= "course_description = '{$c_descri}', instructor_first_name = '{$c_fname}', ";
+        $query .= "instructor_last_name = '{$c_lname}', start_date = '{$c_sdate}', end_date = '{$c_edate}' ";
+        $query .= "WHERE id ='{$courses['id']}'";
+        
+        
         $result = $db->query($query);
         
         
@@ -129,11 +127,9 @@ if (isset($_POST['course'])) {
                                     </div>
                                 </div>
                             </div>
-                            
+                            <button type="submit" name="courses" class="btn btn-danger col-md-4">Update</button>
+
                         </div>
-                        <div class="col-md-4">
-                                <button type="submit" name="courses" class="btn btn-danger">Update</button>
-                            </div>
                     </div>
                     
                 </form>
@@ -143,7 +139,9 @@ if (isset($_POST['course'])) {
 </div>
 <style>
     .row {
+        --bs-gutter-x: .5rem;
         margin-left: calc(1 * var(--bs-gutter-x));
+        min-width: 900px;
     }
 
     .btn-danger {

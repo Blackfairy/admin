@@ -4,14 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <title>
-    <?php
-    if (!empty($page_title))
-      echo remove_junk($page_title);
-    elseif (!empty($user))
-      echo ucfirst($user['name']);
-    else
-      echo "Inventory Management System";
-    ?>
 
   </title>
   
@@ -37,6 +29,7 @@
     <link href="../assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/vendor/datatables/datatables.css" rel="stylesheet">
+
   <link href="dashboardstyle.css" rel="stylesheet">
   
 </head>
@@ -49,7 +42,7 @@
             <div class="menu">
                 <ul class="menu-links">
                     <li class="nav-link">
-                        <img src="../homepage/img/rectangle 5.png" alt="">
+                        <img src="homepage/img/erovoutika_logo.png" alt="">
                         <span class="text nav-text">Eira Admin</span>
                     </li>
                     <li class="nav-link">
@@ -73,16 +66,16 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="courses_table.php">
+                        <a href="courses.php">
                             <i class='bx bx-book icon' ></i>
                             <span class="text nav-text">Courses Tables</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-cog icon' ></i>
-                            <span class="text nav-text">Settings</span>
+                        <a href="audit_trail.php">
+                            <i class='bx bx-search icon' ></i>
+                            <span class="text nav-text">Audit Trail</span>
                         </a>
                     </li>
 
@@ -91,7 +84,7 @@
 
             <div class="bottom-content">
                 <li class="">
-                    <a href="logout-user.php">
+                    <a href="login_signup/logout-user.php">
                         <i class='bx bx-log-out icon' ></i>
                         <span class="text nav-text">Logout</span>
                     </a>
@@ -120,34 +113,24 @@
                     <ul class="nav navbar-nav ms-auto">
                         <li class="nav-item dropdown">
                             <div class="nav-dropdown">
-                                <a href="#" id="nav1" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-link"></i> <span>Quick Links</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end nav-link-menu" aria-labelledby="nav1">
-                                    <ul class="nav-list">
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-list"></i> Access Logs</a></li>
-                                        <div class="dropdown-divider"></div>
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-database"></i> Back ups</a></li>
-                                        <div class="dropdown-divider"></div>
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-cloud-download-alt"></i> Updates</a></li>
-                                        <div class="dropdown-divider"></div>
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-user-shield"></i> Roles</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <div class="nav-dropdown">
                                 <a href="#" id="nav2" class="nav-item nav-link dropdown-toggle text-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user"></i> <span>Renz Amante</span> <i style="font-size: .8em;" class="fas fa-caret-down"></i>
+                                    <i class="fas fa-user"></i>
+                                    <span>
+                                    <?php
+                                    if (isset($user_name)) {
+                                        echo ucfirst($user_name);
+                                    } else {
+                                        echo "Renz Amante";
+                                    }
+                                    ?>
+                                    </span>
+                                    <i style="font-size: .8em;" class="fas fa-caret-down"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end nav-link-menu">
                                     <ul class="nav-list">
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a></li>
-                                        <li><a href="" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a></li>
+                                        <li><a href="admin.php" class="dropdown-item"><i class="fas fa-address-card"></i> Profile</a></li>
                                         <div class="dropdown-divider"></div>
-                                        <li><a href="logout-user.php" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                        <li><a href="login_signup/logout-user.php" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                                     </ul>
                                 </div>
                             </div>

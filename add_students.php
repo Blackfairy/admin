@@ -1,5 +1,26 @@
 <?php require_once "controllerUserData.php"; ?>
-
+<?php 
+$email = $_SESSION['email'];
+$password = $_SESSION['password'];
+if($email != false && $password != false){
+    $sql = "SELECT * FROM admin WHERE email = '$email'";
+    $run_Sql = mysqli_query($con, $sql);
+    if($run_Sql){
+        $fetch_info = mysqli_fetch_assoc($run_Sql);
+        $status = $fetch_info['status'];
+        $code = $fetch_info['code'];
+        if($status == "verified"){
+            if($code != 0){
+                header('Location: add_admin_resetcode.php');
+            }
+        }else{
+            header('Location: add_admin_otp.php');
+        }
+    }
+}else{
+    header('Location: login_signup/login-user.php');
+}
+?>
 <?php
 $page_title = 'Add Student';
 require_once('includes/load.php');
@@ -25,7 +46,7 @@ if (isset($_POST['add_students'])) {
         $query .=") VALUES (";
         $query .=" '{$s_firstname}', '{$s_lastname}', '{$s_dob}', '{$s_gender}', '{$s_major}', '{$s_semail}', '{$s_ecourses}', '{$s_enrolledat}'";
         $query .=")";
-        $query .=" ON DUPLICATE KEY UPDATE mmjor='{$s_lastname}'";
+        $query .=" ON DUPLICATE KEY UPDATE student_email='{$s_semail}'";
 
         if ($db->query($query)) {
             $session->msg('s',"students added ");
@@ -74,7 +95,7 @@ if (isset($_POST['add_students'])) {
                                 <div class="col-md-4">
                                     <div class="input-group">
  
-                                        <input type="text" class="form-control" name="ddob"
+                                        <input type="date" class="form-control" name="ddob"
                                             placeholder="Date of Birth">
                                     </div>
                                 </div>
@@ -107,7 +128,7 @@ if (isset($_POST['add_students'])) {
                                 </div>
                                 <div class="col-md-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="eenrolledat"
+                                        <input type="date" class="form-control" name="eenrolledat"
                                             placeholder="Enrolled Date">
                                     </div>
                                 </div>
