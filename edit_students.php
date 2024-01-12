@@ -29,26 +29,27 @@ $students = find_by_id('students', (int)$_GET['id']);
 
 if (!$students) {
     $session->msg("d", "Missing students id.");
-    redirect('students.php');
+    redirect('students_table.php');
 }
 
-if (isset($_POST['add_students'])) {
-    $req_fields = array('llname', 'ffname', 'ddob', 'ggender', 'mmjor', 'ssemail', 'eecourses', 'eenrolledat');
+if (isset($_POST['update_students'])) {
+
+    $req_fields = array('first_name', 'last_name','contact','university','address', 'date_of_birth', 'gender', 'student_email');
     validate_fields($req_fields);
 
     if (empty($errors)) {
-        $s_firstname = remove_junk($db->escape($_POST['ffname']));
-        $s_lastname = remove_junk($db->escape($_POST['llname']));
-        $s_dob = remove_junk($db->escape($_POST['ddob']));
-        $s_gender = remove_junk($db->escape($_POST['ggender']));
-        $s_major = remove_junk($db->escape($_POST['mmjor']));
-        $s_semail = remove_junk($db->escape($_POST['ssemail']));
-        $s_ecourses = remove_junk($db->escape($_POST['eecourses']));
-        $s_enrolledat = remove_junk($db->escape($_POST['eenrolledat']));
+        $s_firstname = remove_junk($db->escape($_POST['first_name']));
+        $s_lastname = remove_junk($db->escape($_POST['last_name']));        
+        $s_contact = remove_junk($db->escape($_POST['contact']));
+        $s_university = remove_junk($db->escape($_POST['university']));
+        $s_address = remove_junk($db->escape($_POST['address']));
+        $s_dob = remove_junk($db->escape($_POST['date_of_birth']));
+        $s_gender = remove_junk($db->escape($_POST['gender']));
+        $s_semail = remove_junk($db->escape($_POST['student_email']));
         
         $query = "UPDATE students SET ";
-        $query .= "code ='{$c_code}', ";
-        $query .= "name ='{$c_name}', email ='{$c_descri}', status='{$c_sstatus}', is_active='{$c_iisactive}', registration_date='{$c_rrdate}' ";
+        $query .= "first_name ='{$s_firstname}', last_name ='{$s_lastname}', contact ='{$s_contact}', ";
+        $query .= "university ='{$s_university}', address ='{$s_address}', date_of_birth ='{$s_dob}', gender ='{$s_gender}', student_email ='{$s_semail}'";
         $query .= "WHERE id ='{$students['id']}'";
 
         $result = $db->query($query);
@@ -56,10 +57,10 @@ if (isset($_POST['add_students'])) {
         
 
         if ($result && $db->affected_rows() === 1) {
-            $session->msg('c', "students updated ");
-            redirect('students.php', false);
+            $session->msg('c', "students updated! ");
+            redirect('students_table.php', false);
         } else {
-            $session->msg('d', ' Sorry failed to updated!');
+            $session->msg('d', ' Sorry failed to update!');
             redirect('edit_students.php?id=' . $students['id'], false);
         }
 
@@ -71,25 +72,90 @@ if (isset($_POST['add_students'])) {
 ?>
 <?php include_once('layouts/header-sidebar.php'); ?>
 
-<div class="row">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <strong>
-                <span class="glyphicon glyphicon-th"></span>
-                <span>Edit students</span>
-            </strong>
+<div class="main-skills">
+        
+        <div class="card1">
+            <div class="content">
+      
+            <div class="row">
+                <div class="panel panel-default">
+                                        <div class="card">
+                                            <div class="content">
+                                                
+                                        <div class="col-sm-13">
+                                            <div class="detail">
+                                                <p class="detail-subtitle">Welcome Admin!</p>
+                                                <p class="detail-subtitle"><?php echo display_msg($msg); ?></p>                                           
+                                            </div>
+                                        </div>
+                                  
+                                </div>
+                            </div>
+        <div class="panel-heading">          
         </div>
         <div class="panel-body">
             <div class="col-md-7">
-                <form method="post" action="edit_students.php?id=<?php echo (int)$students['id'] ?>">
+            <form method="post" action="edit_students.php?id=<?php echo (int)$students['id'] ?>">
                     <div class="form-group">
                         <div class="row">
+                        <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="qty">Last Name</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="last_name"
+                                            value="<?php echo remove_junk($students['last_name']); ?>">
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="qty">Name</label>
+                                    <label for="qty">First Name</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="cname"
-                                            value="<?php echo remove_junk($students['name']); ?>">
+                                        <input type="text" class="form-control" name="first_name"
+                                            value="<?php echo remove_junk($students['first_name']); ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="qty">Contact</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="contact"
+                                            value="<?php echo remove_junk($students['contact']); ?>">
+                                    </div>
+                                </div>
+                            </div><div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="qty">Company / University</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="university"
+                                            value="<?php echo remove_junk($students['university']); ?>">
+                                    </div>
+                                </div>
+                            </div><div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="qty">Address</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="address"
+                                            value="<?php echo remove_junk($students['address']); ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="qty">Date of Birth</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="date_of_birth"
+                                            value="<?php echo remove_junk($students['date_of_birth']); ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="qty">Gender</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="gender"
+                                            value="<?php echo remove_junk($students['gender']); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -97,51 +163,13 @@ if (isset($_POST['add_students'])) {
                                 <div class="form-group">
                                     <label for="qty">Email</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="email"
-                                            value="<?php echo remove_junk($students['email']); ?>">
+                                        <input type="text" class="form-control" name="student_email"
+                                            value="<?php echo remove_junk($students['student_email']); ?>">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="qty">Code</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="code"
-                                            value="<?php echo remove_junk($students['code']); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="qty">Condition</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="status"
-                                            value="<?php echo remove_junk($students['status']); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="qty">Status</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" name="is_active"
-                                            value="<?php echo remove_junk($students['is_active']); ?>">
-                                    </div>
-                                    <label for="qty">[ 1 ] Active [ 0 ] Not Active</label>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label for="qty">Registration Date</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="rrdate"
-                                            value="<?php echo remove_junk($students['registration_date']); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                          
                         <div class="col-md-4">
-                                <button type="submit" name="students" class="btn btn-danger">Update</button>
+                                <button type="submit" name="update_students" class="btn btn-danger">Update</button>
                             </div>
                     </div>
                       
@@ -152,7 +180,33 @@ if (isset($_POST['add_students'])) {
         </div>
     </div>
 </div>
+
+</div>
+        </div>
+      </div>
 <style>
+        .main-skills .card {
+    min-width: 237px;
+    max-width: 237px;
+    margin: 10px;
+    background: transparent;
+    border-color: lightblue;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}    .main-skills .card1 {
+    min-width: fit-content;
+    max-width: fit-content;
+    margin: 10px;
+    background: transparent;
+    border-color: lightblue;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+
     .row {
         --bs-gutter-x: .5rem;
         margin-left: calc(1 * var(--bs-gutter-x));

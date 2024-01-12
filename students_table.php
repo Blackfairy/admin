@@ -29,9 +29,6 @@ $students = join_student_table();
 ?>
 <?php
  $c_enrollees = count_enrollees();
- $c_courses = count_courses();
- $c_email = count_by_id('usertable');
- $c_verified = count_verified('usertable');
 ?>
 
 <?php include_once('layouts/header-sidebar.php'); ?>
@@ -46,7 +43,7 @@ $students = join_student_table();
                                         </div>
                                         <div class="col-sm-8">
                                             <div class="detail">
-                                                <p class="detail-subtitle">Students</p>
+                                                <p class="detail-subtitle">Registered Students</p>
                                                 <span class="number"><?php  echo $c_enrollees['total']; ?></span>
                                             </div>
                                         </div>
@@ -92,12 +89,13 @@ $students = join_student_table();
                             <th class="text-center" style="width: 50px;">ID</th>
                             <th class="text-center"> First Name </th>
                             <th class="text-center"> Last Name </th>
+                            <th class="text-center"> Contact </th>
+                            <th class="text-center"> Company / University </th>
+                            <th class="text-center"> Address </th>
                             <th class="text-center"> Date of Birth </th>
                             <th class="text-center"> Gender </th>
-                            <th class="text-center"> Major </th>
                             <th class="text-center"> University Email </th>
-                            <th class="text-center"> Enrolled Courses </th> <!-- Change here -->
-                            <th class="text-center"> Date Enrolled </th>
+                            <th class="text-center"> Date Registered </th>
                             <th class="text-center" style="width: 100px;"> Actions </th>
                         </tr>
                     </thead>
@@ -107,14 +105,18 @@ $students = join_student_table();
                             <td class="multiline-text" style="vertical-align: middle;"> <?php echo remove_junk($students['id']); ?></td>
                             <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['first_name']); ?></td>
                             <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['last_name']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['contact']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['university']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['address']); ?></td>
                             <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['date_of_birth']); ?></td>
                             <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['gender']); ?></td>
-                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['major']); ?></td>
                             <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['student_email']);?></td>
-                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['enrolled_courses']);?></td>
-                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['enrolled_at']);?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['registered_at']);?></td>
                             <td class="text-center">
                                 <div class="btn-group">
+                                    <a href="authorized.php?id=<?php echo (int)$students['id'];?>" class="btn btn-danger btn-xs"  title="Authorized" data-toggle="tooltip">
+                                    <span class=""> Authorized</span>
+                                    </a>
                                     <a href="edit_students.php?id=<?php echo (int)$students['id'];?>" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
                                     <span class="fas fa-edit" style="color:forestgreen"></span>
                                     </a>

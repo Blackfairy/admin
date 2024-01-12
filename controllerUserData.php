@@ -79,7 +79,7 @@ if(isset($_POST['check'])){
             $_SESSION['email'] = $email;
             $info = "$email added as Admin";
             $_SESSION['info'] = $info;
-            header('location: add_admin.php');
+            header('location: admin.php');
             exit();
         }else{
             $errors['otp-error'] = "Failed while updating code!";

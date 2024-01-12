@@ -29,10 +29,7 @@ $courses = join_course_table();
 // Function to get the current date and time in Asia/Manila timezone
 ?>
 <?php
- $c_enrollees = count_enrollees();
  $c_courses = count_courses();
- $c_email = count_by_id('usertable');
- $c_verified = count_verified('usertable');
 ?>
 
 <?php include_once('layouts/header-sidebar.php'); ?>

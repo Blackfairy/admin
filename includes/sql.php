@@ -116,6 +116,12 @@ function count_enrollees() {
   $result = find_by_sql($sql);
   return ['total' => $result[0]['total']];
 }
+function count_enrolled() {
+  global $db;
+  $sql = "SELECT COUNT(*) AS total FROM enrolled_students";
+  $result = find_by_sql($sql);
+  return ['total' => $result[0]['total']];
+}
 
 /*---------------------------------------------------------------------*/
 /* Function to count the total number of courses
@@ -136,11 +142,11 @@ function count_courses() {
   $result = find_by_sql($sql);
   return $result[0]['total'];
 }*/
-function count_verified($table){
+function count_active($table){
   global $db;
   if(tableExists($table))
   {
-    $sql    = "SELECT COUNT(id) AS total FROM usertable where status= 'verified' ";
+    $sql    = "SELECT COUNT(id) AS total FROM students where activation= '1' ";
     $result = $db->query($sql);
     return($db->fetch_assoc($result));
   }
@@ -198,8 +204,16 @@ function tableExists($table){
 function join_student_table()
 {
     global $db;
-    $sql  = "SELECT s.id, s.first_name, s.last_name, s.date_of_birth, s.gender, s.major, s.student_email, s.enrolled_courses, s.enrolled_at";
+    $sql  = "SELECT s.id, s.first_name, s.last_name, s.contact, s.university, s.address, s.date_of_birth, s.gender, s.student_email, s.registered_at";
     $sql .= " FROM students s";
+    $sql .= " ORDER BY s.id ASC";
+    return find_by_sql($sql);
+}
+function join_enrolled_student_table()
+{
+    global $db;
+    $sql  = "SELECT s.id, s.enrolled_course, s.first_name, s.last_name, s.contact, s.university, s.address, s.date_of_birth, s.gender, s.student_email, s.enrolled_at";
+    $sql .= " FROM enrolled_students s";
     $sql .= " ORDER BY s.id ASC";
     return find_by_sql($sql);
 }

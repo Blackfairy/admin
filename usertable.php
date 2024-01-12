@@ -22,16 +22,13 @@ if($email != false && $password != false){
 }
 ?>
 <?php
-$page_title = 'User Table';
+$page_title = 'Enrolled Students Table';
 require_once('includes/load.php');
 require 'vendor/autoload.php'; // Include SimpleExcel
-$students = join_user_table(); // Include your sql.php file
+$students = join_enrolled_student_table();
 ?>
 <?php
- $c_enrollees = count_enrollees();
- $c_courses = count_courses();
- $c_email = count_by_id('usertable');
- $c_verified = count_verified('usertable');
+ $c_enrollees = count_enrolled();
 ?>
 
 <?php include_once('layouts/header-sidebar.php'); ?>
@@ -46,8 +43,8 @@ $students = join_user_table(); // Include your sql.php file
                                         </div>
                                         <div class="col-sm-8">
                                             <div class="detail">
-                                                <p class="detail-subtitle">VERIFIED USERS</p>
-                                                <span class="number"><?php  echo $c_verified['total']; ?></span>
+                                                <p class="detail-subtitle">Enrolled Students</p>
+                                                <span class="number"><?php  echo $c_enrollees['total']; ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -72,7 +69,7 @@ $students = join_user_table(); // Include your sql.php file
                                                     <hr />
                                                     <div class="stats">
                                                     
-                                <a href="add_user.php" class="btn">Add New User</a>
+                                <a href="add_students.php" class="btn">Add New Student</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -84,54 +81,54 @@ $students = join_user_table(); // Include your sql.php file
                     <div class="col-md-12">
                     </div>
                     <div class="col-md-12">
-                        <div class="panel panel-default">
-                        
-                            </div>
-                            
-                            <div class="panel-heading clearfix">
-                                        <div class="pull-right">
-                                        
-                            </div>
-                            </div>
-                            <div class="panel-body">
-                                <table class="table table-bordered" id="courseTable">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center" style="width: 50px;">ID</th>
-                                            <th class="text-center"> Name </th>
-                                            <th class="text-center"> Email </th>
-                                            <th class="text-center"> Code </th>
-                                            <th class="text-center"> Status </th>
-                                            <th class="text-center"> Is Active </th>
-                                            <th class="text-center"> Registration Date </th>
-                                            <th class="text-center" style="width: 100px;"> Actions </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($students as $students):?>
-                                        <tr>
-                                            <td class="multiline-text" style="vertical-align: middle;"> <?php echo remove_junk($students['id']); ?></td>
-                                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['name']); ?></td>
-                                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['email']); ?></td>
-                                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['code']); ?></td>
-                                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['status']); ?></td>
-                                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['is_active']); ?></td>
-                                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['registration_date']); ?></td>
-                                            <td class="text-center">
-                                                <div class="btn-group">
-                                                    <a href="edit_usertable.php?id=<?php echo (int)$students['id'];?>" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
-                                                    <span class="fas fa-edit" style="color:forestgreen"></span>
-                                                    </a>
-                                                    <a href="delete_user.php?id=<?php echo (int)$students['id'];?>" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
-                                                    <span class="fas fa-trash" style="color:red"></span>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="panel panel-default" id="courseTable">
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 50px;">ID</th>
+                            <th class="text-center"> Enrolled Course</th>
+                            <th class="text-center"> First Name </th>
+                            <th class="text-center"> Last Name </th>
+                            <th class="text-center"> Contact </th>
+                            <th class="text-center"> Company / University </th>
+                            <th class="text-center"> Address </th>
+                            <th class="text-center"> Date of Birth </th>
+                            <th class="text-center"> Gender </th>
+                            <th class="text-center"> University Email </th>
+                            <th class="text-center"> Date Registered </th>
+                            <th class="text-center" style="width: 100px;"> Actions </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($students as $students):?>
+                        <tr>
+                            <td class="multiline-text" style="vertical-align: middle;"> <?php echo remove_junk($students['id']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['enrolled_course']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['first_name']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['last_name']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['contact']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['university']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['address']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['date_of_birth']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['gender']); ?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['student_email']);?></td>
+                            <td class="text-center" style="vertical-align: middle;"> <?php echo remove_junk($students['enrolled_at']);?></td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <a href="edit_usertable.php?id=<?php echo (int)$students['id'];?>" class="btn btn-info btn-xs"  title="Edit" data-toggle="tooltip">
+                                    <span class="fas fa-edit" style="color:forestgreen"></span>
+                                    </a>
+                                    <a href="delete_usertable.php?id=<?php echo (int)$students['id'];?>" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
+                                    <span class="fas fa-trash" style="color:red"></span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
                         </div>
                     </div>
                 </div>

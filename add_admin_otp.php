@@ -1,26 +1,5 @@
 <?php require_once "controllerUserData.php"; ?>
-<?php 
-$email = $_SESSION['email'];
-$password = $_SESSION['password'];
-if($email != false && $password != false){
-    $sql = "SELECT * FROM admin WHERE email = '$email'";
-    $run_Sql = mysqli_query($con, $sql);
-    if($run_Sql){
-        $fetch_info = mysqli_fetch_assoc($run_Sql);
-        $status = $fetch_info['status'];
-        $code = $fetch_info['code'];
-        if($status == "verified"){
-            if($code != 0){
-                header('Location: add_admin_resetcode.php');
-            }
-        }else{
-            header('Location: add_admin_otp.php');
-        }
-    }
-}else{
-    header('Location: login_signup/login-user.php');
-}
-?>
+
 <?php
   $page_title = 'OTP';
   

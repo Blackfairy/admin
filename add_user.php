@@ -21,38 +21,39 @@ if($email != false && $password != false){
     header('Location: login_signup/login-user.php');
 }
 ?>
-<?php 
-$page_title = 'Add usertable';
+<?php
+$page_title = 'Add Student';
 require_once('includes/load.php');
-$all_categories = find_all('usertable');
+$all_categories = find_all('students');
 
 if (isset($_POST['add_user'])) {
-    $req_fields = array('name', 'email','password', 'code', 'status', 'is_active', 'registration_date');
+    $req_fields = array('enrolled_course','first_name', 'last_name','contact','university','address', 'date_of_birth', 'gender', 'student_email');
     validate_fields($req_fields);
-
     if (empty($errors)) {
-        $u_name = remove_junk($db->escape($_POST['name']));
-        $u_email = remove_junk($db->escape($_POST['email']));
-        $u_password = remove_junk($db->escape($_POST['password']));
-        $u_code = remove_junk($db->escape($_POST['code']));
-        $u_status = remove_junk($db->escape($_POST['status']));
-        $c_iisactive = remove_junk($db->escape($_POST['is_active']));
-        $u_registration_date = remove_junk($db->escape($_POST['registration_date']));
+        $s_enrolledcourse = remove_junk($db->escape($_POST['enrolled_course']));
+        $s_firstname = remove_junk($db->escape($_POST['first_name']));
+        $s_lastname = remove_junk($db->escape($_POST['last_name']));        
+        $s_contact = remove_junk($db->escape($_POST['contact']));
+        $s_university = remove_junk($db->escape($_POST['university']));
+        $s_address = remove_junk($db->escape($_POST['address']));
+        $s_dob = remove_junk($db->escape($_POST['date_of_birth']));
+        $s_gender = remove_junk($db->escape($_POST['gender']));
+        $s_semail = remove_junk($db->escape($_POST['student_email']));
 
 
-        $query  = "INSERT INTO usertable (";
-        $query .=" name,email,password,code,status,is_active,registration_date";
+        $query  = "INSERT INTO students (";
+        $query .=" enrolled_course, first_name, last_name, contact, university, address, date_of_birth, gender, student_email";
         $query .=") VALUES (";
-        $query .=" '{$u_name}','{$u_email}','{$u_password}', '{$u_code}', '{$u_status}', '{$c_iisactive}', '{$u_registration_date}'";
+        $query .=" '{$s_enrolledcourse}' ,'{$s_firstname}', '{$s_lastname}', '{$s_contact}','{$s_university}','{$s_address}','{$s_dob}', '{$s_gender}','{$s_semail}'";
         $query .=")";
-        $query .=" ON DUPLICATE KEY UPDATE email='{$u_email}'";
+        $query .=" ON DUPLICATE KEY UPDATE student_email='{$s_semail}'";
 
         if ($db->query($query)) {
-            $session->msg('s',"New user added ");
+            $session->msg('s',"students added ");
             redirect('add_user.php', false);
         } else {
-            $session->msg('d',' Sorry failed to add!');
-            redirect('add_user.php', false);
+            $session->msg('d',' Sorry failed to added!');
+            redirect('students.php', false);
         }
 
     } else {
@@ -63,9 +64,15 @@ if (isset($_POST['add_user'])) {
 ?>
 <?php include_once('layouts/header-sidebar.php'); ?>
 <div class="main-skills">
-<div class="card">
-                                <div class="content">
-                                    
+        
+        <div class="card1">
+            <div class="content">
+      
+            <div class="row">
+                <div class="panel panel-default">
+                                        <div class="card">
+                                            <div class="content">
+                                                
                                         <div class="col-sm-13">
                                             <div class="detail">
                                                 <p class="detail-subtitle">Welcome Admin!</p>
@@ -75,80 +82,93 @@ if (isset($_POST['add_user'])) {
                                   
                                 </div>
                             </div>
-        <div class="card1">
-            <div class="content">
-<div class="row">
-    <div class="col-md-8">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong>
-                    <span class="glyphicon glyphicon-th"></span>
-                    <span>Add New User</span>
-                </strong>
-            </div>
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <form method="post" action="add_user.php" class="clearfix">
-                        <div class="form-group">
-                            <div class="row">
+        <div class="panel-heading">
+           
+        </div>
+        <div class="panel-body">
+            <div class="col-md-7">
+                <form method="post" action="add_user.php" class="clearfix">
+                    <div class="form-group">
+                        <div class="input-group">
+                        
+                                    <select name="enrolled_course" class="form-control" id="enrolled_course" required="">
+                                        <option value="" disabled selected>Select Course</option>
+                                        <option value="HTML">HTML</option>
+                                        <option value="CSS">CSS</option>
+                                        <option value="JAVASCRIPT">JAVASCRIPT</option>
+                                        <option value="PHP">PHP</option>
+                                        <option value="GAME DEVELOPMENT & ANIMATION">GAME DEVELOPMENT & ANIMATION</option>
+                                        <option value="CISCO WAN TECHNOLOGY">CISCO WAN TECHNOLOGY</option>
+                                        <option value="CLOUD COMPUTING">CLOUD COMPUTING</option>
+                                        <option value="other">Other</option>
+                                    </select>
+           
+                            <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                        <div class="col-md-4">
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" name="first_name"
+                                        placeholder="First Name">
+                                </div>
+                            </div>
                             <div class="col-md-4">
-                                    <div class="input-group">
-                                        
-                                    <input type="text" class="form-control" name="name"
-                                            placeholder="Name">
-                                    </div>
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" name="contact"
+                                        placeholder="Contact">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
- 
-                                        <input type="text" class="form-control" name="email"
-                                            placeholder="Email">
-                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" name="university"
+                                        placeholder="University">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
- 
-                                        <input type="text" class="form-control" name="password"
-                                            placeholder="password">
-                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" name="address"
+                                        placeholder="Address">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
- 
-                                        <input type="text" class="form-control" name="code"
-                                            placeholder="OTP Code">
-                                    </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="input-group">
+
+                                    <input type="date" class="form-control" name="date_of_birth"
+                                        placeholder="Date of Birth">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
- 
-                                        <input type="text" class="form-control" name="status"
-                                            placeholder="Condition">
-                                    </div>
-                                </div> <div class="col-md-4">
-                                    <div class="input-group">
- 
-                                        <input type="text" class="form-control" name="is_active"
-                                            placeholder="Status">
-                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" name="gender"
+                                        placeholder="Gender">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
- 
-                                        <input type="date" class="form-control" name="registration_date"
-                                            placeholder="Date Created">
-                                    </div>
+                            </div>
+                        
+                            <div class="col-md-4">
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control" name="ssemail"
+                                        placeholder="Student Email">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
-                                <button type="submit" name="add_user" class="btn">Add User</button>
-                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                            <button type="submit" name="add_user" class="btn">Add students</button>
                                 </div>
                             </div>
                         </div>
-                        
-                    </form>
-                </div>
+                    </div>
+                    
+                </form>
             </div>
         </div>
     </div>
@@ -157,28 +177,28 @@ if (isset($_POST['add_user'])) {
 </div>
         </div>
       </div>
-      <style>
-    .main-skills .card {
-        min-width: 237px;
-        max-width: 237px;
-        margin: 10px;
-        background: transparent;
-        border-color: lightblue;
-        text-align: center;
-        border-radius: 20px;
-        padding: 10px;
-        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    }    .main-skills .card1 {
-        min-width: fit-content;
-        max-width: fit-content;
-        margin: 10px;
-        background: transparent;
-        border-color: lightblue;
-        text-align: center;
-        border-radius: 20px;
-        padding: 10px;
-        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-    }
+<style>
+        .main-skills .card {
+    min-width: 237px;
+    max-width: 237px;
+    margin: 10px;
+    background: transparent;
+    border-color: lightblue;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}    .main-skills .card1 {
+    min-width: fit-content;
+    max-width: fit-content;
+    margin: 10px;
+    background: transparent;
+    border-color: lightblue;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
 
     .row {
         --bs-gutter-x: .5rem;
@@ -202,6 +222,5 @@ if (isset($_POST['add_user'])) {
         --bs-btn-disabled-bg: #1565c0;
         --bs-btn-disabled-border-color: #1565c0;
     }
-      </style>
-
+</style>
 <?php include_once('layouts/main-footer.php'); ?>

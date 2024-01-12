@@ -54,14 +54,14 @@
                     <li class="nav-link">
                         <a href="usertable.php">
                             <i class='bx bx-user icon' ></i>
-                            <span class="text nav-text">User Tables</span>
+                            <span class="text nav-text">Enrolled Students</span>
                         </a>
                     </li>
 
                     <li class="nav-link">
                         <a href="students_table.php">
                             <i class='bx bx-user icon'></i>
-                            <span class="text nav-text">Student Tables</span>
+                            <span class="text nav-text">Registered Students</span>
                         </a>
                     </li>
 
@@ -69,6 +69,13 @@
                         <a href="courses.php">
                             <i class='bx bx-book icon' ></i>
                             <span class="text nav-text">Courses Tables</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="courses.php">
+                            <i class='bx bx-book icon' ></i>
+                            <span class="text nav-text">Certification</span>
                         </a>
                     </li>
 
