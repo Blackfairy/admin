@@ -1,4 +1,4 @@
-<?php require_once "controllerUserData.php"; ?>
+<?php require_once "controllerUserData1.php"; ?>
 
 <?php
   $page_title = 'Password Changed';
