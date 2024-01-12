@@ -46,7 +46,7 @@
                         <span class="text nav-text">Eira Admin</span>
                     </li>
                     <li class="nav-link">
-                        <a href="dashboard.php">
+                        <a href="index.php">
                             <i class='bx bx-home-alt icon' ></i>
                             <span class="text nav-text">Dashboard</span>
                         </a>
@@ -127,7 +127,7 @@
                                     if (isset($user_name)) {
                                         echo ucfirst($user_name);
                                     } else {
-                                        echo "Renz Amante";
+                                        echo "Admin";
                                     }
                                     ?>
                                     </span>

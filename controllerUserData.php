@@ -112,7 +112,7 @@ if (isset($_POST['login'])) {
             // Store the user's name in the session
             $_SESSION['user_name'] = $fetch['name'];
 
-                header('location: ../dashboard.php');
+                header('location: ../index.php');
             } else {
                 // Generate a new verification code
                 $code = rand(999999, 111111);
